@@ -44,10 +44,22 @@ struct EntryListView: View {
         NavigationView{
             List{
                 ForEach(vm.entries) { entry in
-                    VStack(alignment: .leading){
-                        Text(entry.title)
-                        Text(entry.note)
+                    NavigationLink {
+                        EntryEditView(entry: entry, completion: vm.update)
+                    } label: {
+                        EntryCellView(entry: entry)
                     }
+                }
+            }
+            .navigationTitle("Journal Entries")
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    NavigationLink {
+                        EntryEditView(entry: Entry(), completion: vm.create)
+                    } label: {
+                        Label("Save", systemImage: "plus")
+                    }
+                    
                 }
             }
         }
@@ -57,5 +69,34 @@ struct EntryListView: View {
 struct EntryListView_Previews: PreviewProvider {
     static var previews: some View {
         EntryListView()
+    }
+}
+struct EntryEditView : View {
+    @Environment(\.dismiss) var dismiss
+    @State var entry : Entry
+    var completion: (Entry)->()
+    
+    var body: some View {
+        Form{
+            TextField("title", text: $entry.title)
+            TextEditor(text: $entry.note)
+                .lineLimit(nil)
+            Button {
+                completion(entry)
+                dismiss()
+            } label: {
+                Text("Save").centerHorizontally()
+            }
+            .buttonStyle(.bordered)
+        }
+    }
+}
+struct EntryCellView: View {
+    let entry : Entry
+    var body: some View {
+        VStack(alignment: .leading){
+            Text(entry.title)
+            Text(entry.note)
+        }
     }
 }
