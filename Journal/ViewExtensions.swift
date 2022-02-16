@@ -21,4 +21,7 @@ extension View {
             Spacer()
         }
     }
+    func test() {
+        print("test")
+    }
 }
