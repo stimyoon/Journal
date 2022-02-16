@@ -54,78 +54,77 @@ class MockEntryDataService: EntryDataServiceProtocol {
     }
 }
 
-//class PersonCoreDataService : PersonDataServiceProtocol {
-//    @Published private (set) var persons : [Person] = []
-//    @Published private var personEntities : [PersonEntity] = []
-//    let manager = PersistenceController.shared
-//    private var cancellables = Set<AnyCancellable>()
-//
-//    func fetch() {
-//        let request = NSFetchRequest<PersonEntity>(entityName: "PersonEntity")
-//        let sort = [NSSortDescriptor(key: "lastName", ascending: true),
-//                    NSSortDescriptor(key: "firstName", ascending: true)
-//                    ]
-//        request.sortDescriptors = sort
-//        do {
-//            personEntities = try manager.context.fetch(request)
-//        } catch let error {
-//            fatalError("Unable to fetch from coredata: \(error)")
-//        }
-//    }
-//    init(){
-//        fetch()
-//        $personEntities
-//            .map({ personEntities in
-//                personEntities.map { (personEntity) -> Person     in
-//                    var person = Person()
-//                    person.id = personEntity.id
-//                    person.firstName = personEntity.firstName ?? ""
-//                    person.lastName = personEntity.lastName ?? ""
-//                    person.healthEntries = personEntity.healthEntities?.allObjects as? [HealthEntry] ?? []
-//                    return person
-//                }
-//            })
-//            .sink { error in
-//                fatalError("Unable to sink: \(error)")
-//            } receiveValue: { [weak self] persons in
-//                self?.persons = persons
-//            }
-//            .store(in: &cancellables)
-//    }
-//
-//    func getData() -> AnyPublisher<[Person], Error> {
-//        $persons.tryMap({$0}).eraseToAnyPublisher()
-//    }
-//
-//    func create(person: Person) {
-//        let entity = PersonEntity(context: manager.context)
-//        entity.id = person.id
-//        entity.firstName = person.firstName
-//        entity.lastName = person.lastName
-//        entity.healthEntities = NSSet(array: person.healthEntries)
-//        manager.save()
-//        fetch()
-//    }
-//
-//    func update(person: Person) {
-//        guard let index = persons.firstIndex(where: {$0.id == person.id}) else { return }
-//        let entity = personEntities[index]
-//        entity.id = person.id
-//        entity.firstName = person.firstName
-//        entity.lastName = person.lastName
-//        entity.healthEntities = NSSet(array: person.healthEntries)
-//        manager.save()
-//        fetch()
-//    }
-//
-//    func delete(person: Person) {
-//        guard let index = persons.firstIndex(where: {$0.id == person.id}) else { return }
-//        manager.context.delete(personEntities[index])
-//        manager.save()
-//        fetch()
-//    }
-//}
-//
+class EntryCoreDataService : EntryDataServiceProtocol {
+    @Published private (set) var entries : [Entry] = []
+    @Published private var entryEntities : [EntryEntity] = []
+    let manager = PersistenceController.shared
+    private var cancellables = Set<AnyCancellable>()
+
+    func fetch() {
+        let request = NSFetchRequest<EntryEntity>(entityName: "EntryEntity")
+        let sort = [NSSortDescriptor(key: "title", ascending: true),
+                    NSSortDescriptor(key: "note", ascending: true)
+                    ]
+        request.sortDescriptors = sort
+        do {
+            entryEntities = try manager.context.fetch(request)
+        } catch let error {
+            fatalError("Unable to fetch from coredata: \(error)")
+        }
+    }
+    init(){
+        fetch()
+        $entryEntities
+            .map({ entryEntities in
+                entryEntities.map { (entryEntity) -> Entry     in
+                    var entry = Entry()
+                    entry.id = entryEntity.id
+                    entry.title = entryEntity.title ?? ""
+                    entry.note = entryEntity.note ?? ""
+                    return entry
+                }
+            })
+            .sink { error in
+                fatalError("Unable to sink: \(error)")
+            } receiveValue: { [weak self] entries in
+                self?.entries = entries
+            }
+            .store(in: &cancellables)
+    }
+
+    func getData() -> AnyPublisher<[Person], Error> {
+        $persons.tryMap({$0}).eraseToAnyPublisher()
+    }
+
+    func create(person: Person) {
+        let entity = PersonEntity(context: manager.context)
+        entity.id = person.id
+        entity.firstName = person.firstName
+        entity.lastName = person.lastName
+        entity.healthEntities = NSSet(array: person.healthEntries)
+        manager.save()
+        fetch()
+    }
+
+    func update(person: Person) {
+        guard let index = persons.firstIndex(where: {$0.id == person.id}) else { return }
+        let entity = personEntities[index]
+        entity.id = person.id
+        entity.firstName = person.firstName
+        entity.lastName = person.lastName
+        entity.healthEntities = NSSet(array: person.healthEntries)
+        manager.save()
+        fetch()
+    }
+
+    func delete(person: Person) {
+        guard let index = persons.firstIndex(where: {$0.id == person.id}) else { return }
+        manager.context.delete(personEntities[index])
+        manager.save()
+        fetch()
+    }
+}
+
 //class PersonRepository : ObservableObject {
 //    @Published var persons : [Person] = []
 //    var dataService : PersonDataServiceProtocol
