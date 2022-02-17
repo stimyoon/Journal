@@ -120,10 +120,13 @@ struct EntryCellView: View {
                 Text(dateString(date: entry.timestamp))
                     .font(.caption)
             }
+            .padding(.bottom, 4)
             if let attributedString = try? AttributedString(markdown: entry.note ) {
                 Text(attributedString)
+                    .lineLimit(3)
             } else {
                 Text(entry.note)
+                    .lineLimit(3)
             }
         }
     }
