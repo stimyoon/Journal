@@ -6,13 +6,16 @@
         <attribute name="note" optional="YES" attributeType="String"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="photos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PhotoEntity" inverseName="entry" inverseEntity="PhotoEntity"/>
     </entity>
-    <entity name="Photo" representedClassName="Photo" syncable="YES" codeGenerationType="class">
+    <entity name="PhotoEntity" representedClassName="PhotoEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="imageData" optional="YES" attributeType="Binary"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="entry" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EntryEntity" inverseName="photos" inverseEntity="EntryEntity"/>
     </entity>
     <elements>
-        <element name="EntryEntity" positionX="-63" positionY="-18" width="128" height="104"/>
-        <element name="Photo" positionX="-63" positionY="-9" width="128" height="59"/>
+        <element name="EntryEntity" positionX="-63" positionY="-18" width="128" height="119"/>
+        <element name="PhotoEntity" positionX="-63" positionY="-9" width="128" height="89"/>
     </elements>
 </model>

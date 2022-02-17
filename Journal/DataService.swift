@@ -8,13 +8,15 @@
 import Foundation
 import Combine
 import CoreData
+import UIKit
 
-struct Entry : Identifiable, Hashable {
+struct Entry : Identifiable {
     var id : String? = UUID().uuidString
     var dateCreated : Date = Date()
     var timestamp : Date = Date()
     var title = ""
     var note = ""
+    var photos : [Photo] = []
 }
 protocol EntryDataServiceProtocol {
     func getData() -> AnyPublisher<[Entry], Error>
@@ -59,6 +61,8 @@ class EntryCoreDataService : EntryDataServiceProtocol {
     @Published private var entryEntities : [EntryEntity] = []
     let manager = PersistenceController.shared
     private var cancellables = Set<AnyCancellable>()
+    
+    var photoDataService :
 
     func fetch() {
         let request = NSFetchRequest<EntryEntity>(entityName: "EntryEntity")
@@ -78,7 +82,7 @@ class EntryCoreDataService : EntryDataServiceProtocol {
                 entryEntities.map { (entryEntity) -> Entry     in
                     var entry = Entry()
                     do {
-                        try self.setEntryValues(entry: &entry, entity: entryEntity)
+                        entry = try self.getEntryWithEntryEntity(entry: entry, entity: entryEntity)
                     } catch let error {
                         fatalError("\(error)")
                     }
@@ -99,17 +103,59 @@ class EntryCoreDataService : EntryDataServiceProtocol {
         entity.note = entry.note
         entity.timestamp = entry.timestamp
         entity.dateCreated = entry.dateCreated
+        var photoEntities : [PhotoEntity] = entry.photos.map { <#Photo#> in
+            <#code#>
+        }
+        }
+        entity.photos = NSSet(array: entry.)
     }
     
     enum SetEntryValuesError : Error {
         case timestampIsNil
         case dateCreatedIsNil
     }
-    
-    private func setEntryValues( entry: inout Entry, entity: EntryEntity) throws {
+    enum SetPhotoValuesError : Error {
+        case entityIDIsNil
+        case timestampIsNil
+        case imageDataIsNil
+        case unableToMakeUIImageWithImageData
+    }
+    private func getPhotoWithPhotoEntity(photo: Photo, entity: PhotoEntity) throws -> Photo{
+        var photo = photo
+        guard let id = entity.id else {
+            throw SetPhotoValuesError.entityIDIsNil
+        }
+        photo.id = id
+        
+        guard let timestamp = entity.timestamp else {
+            throw SetPhotoValuesError.timestampIsNil
+        }
+        photo.timestamp = timestamp
+        
+        guard let imageData = entity.imageData else {
+            throw SetPhotoValuesError.imageDataIsNil
+        }
+        
+        guard let uiImage = UIImage(data: imageData) else {
+            throw SetPhotoValuesError.unableToMakeUIImageWithImageData
+        }
+        photo.uiImage = uiImage
+        
+        return photo
+    }
+    private func getEntryWithEntryEntity( entry: Entry, entity: EntryEntity) throws -> Entry {
+        var entry = entry
         entry.id = entity.id
         entry.title = entity.title ?? ""
         entry.note = entity.note ?? ""
+        guard let photoEntityArray : [PhotoEntity] = entity.photos?.allObjects as? [PhotoEntity] else {
+            throw SetPhotoValuesError.unableToMakePhotoEntityArray
+        }
+        
+        entry.photos = photoEntityArray.map({ photoEntity in
+            var photo = Photo()
+            photo.id =
+        })
         guard let timestamp = entity.timestamp else {
             throw SetEntryValuesError.timestampIsNil
         }
