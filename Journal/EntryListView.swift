@@ -82,10 +82,22 @@ struct EntryEditView : View {
     var completion: (Entry)->()
     
     var body: some View {
-        Form{
-            TextField("title", text: $entry.title)
-            TextEditor(text: $entry.note)
-                .lineLimit(nil)
+        VStack{
+            ScrollView{
+                HStack{
+                    Spacer()
+                    DatePicker("Date", selection: $entry.timestamp)
+                }
+                TextField("title", text: $entry.title)
+                    .textFieldStyle(.roundedBorder)
+                    .font(.title3.weight(.semibold))
+                Section(header: Text("Note")){
+                    TextEditor(text: $entry.note)
+                        .lineLimit(nil)
+                        .frame(height: 300)
+                        .border(.tertiary)
+                }
+            }
             Button {
                 completion(entry)
                 dismiss()
@@ -94,6 +106,7 @@ struct EntryEditView : View {
             }
             .buttonStyle(.bordered)
         }
+        .padding(.horizontal)
     }
 }
 
@@ -107,7 +120,11 @@ struct EntryCellView: View {
                 Text(dateString(date: entry.timestamp))
                     .font(.caption)
             }
-            Text(entry.note)
+            if let attributedString = try? AttributedString(markdown: entry.note ) {
+                Text(attributedString)
+            } else {
+                Text(entry.note)
+            }
         }
     }
     func dateString(date: Date) -> String {
@@ -116,4 +133,5 @@ struct EntryCellView: View {
         dateFormatter.timeStyle = .short
         return dateFormatter.string(from: date)
     }
+
 }
