@@ -62,9 +62,7 @@ class EntryCoreDataService : EntryDataServiceProtocol {
 
     func fetch() {
         let request = NSFetchRequest<EntryEntity>(entityName: "EntryEntity")
-        let sort = [NSSortDescriptor(key: "title", ascending: true),
-                    NSSortDescriptor(key: "note", ascending: true)
-                    ]
+        let sort = [NSSortDescriptor(key: "timestamp", ascending: true)]
         request.sortDescriptors = sort
         do {
             entryEntities = try manager.context.fetch(request)
@@ -72,15 +70,43 @@ class EntryCoreDataService : EntryDataServiceProtocol {
             fatalError("Unable to fetch from coredata: \(error)")
         }
     }
+    func setEntryEntityValues(entity: EntryEntity, entry: Entry) {
+        entity.id = entry.id
+        entity.title = entry.title
+        entity.note = entry.note
+        entity.timestamp = entry.timestamp
+        entity.dateCreated = entry.dateCreated
+    }
+    enum SetEntryValuesError : Error {
+        case timestampIsNil
+        case dateCreatedIsNil
+    }
+    func setEntryValues( entry: inout Entry, entity: EntryEntity) throws {
+        entry.id = entity.id
+        entry.title = entity.title ?? ""
+        entry.note = entity.note ?? ""
+        guard let timestamp = entity.timestamp else {
+            throw SetEntryValuesError.timestampIsNil
+        }
+        entry.timestamp = timestamp
+        
+        guard let dateCreated = entity.dateCreated else {
+            throw SetEntryValuesError.dateCreatedIsNil
+        }
+        entry.dateCreated = dateCreated
+    }
+    
     init(){
         fetch()
         $entryEntities
             .map({ entryEntities in
                 entryEntities.map { (entryEntity) -> Entry     in
                     var entry = Entry()
-                    entry.id = entryEntity.id
-                    entry.title = entryEntity.title ?? ""
-                    entry.note = entryEntity.note ?? ""
+                    do {
+                        try self.setEntryValues(entry: &entry, entity: entryEntity)
+                    } catch let error {
+                        fatalError("\(error)")
+                    }
                     return entry
                 }
             })
@@ -92,64 +118,31 @@ class EntryCoreDataService : EntryDataServiceProtocol {
             .store(in: &cancellables)
     }
 
-    func getData() -> AnyPublisher<[Person], Error> {
-        $persons.tryMap({$0}).eraseToAnyPublisher()
+    func getData() -> AnyPublisher<[Entry], Error> {
+        $entries.tryMap({$0}).eraseToAnyPublisher()
     }
 
-    func create(person: Person) {
-        let entity = PersonEntity(context: manager.context)
-        entity.id = person.id
-        entity.firstName = person.firstName
-        entity.lastName = person.lastName
-        entity.healthEntities = NSSet(array: person.healthEntries)
+    func create(entry: Entry) {
+        let entity = EntryEntity(context: manager.context)
+        setEntryEntityValues(entity: entity, entry: entry)
+        
         manager.save()
         fetch()
     }
 
-    func update(person: Person) {
-        guard let index = persons.firstIndex(where: {$0.id == person.id}) else { return }
-        let entity = personEntities[index]
-        entity.id = person.id
-        entity.firstName = person.firstName
-        entity.lastName = person.lastName
-        entity.healthEntities = NSSet(array: person.healthEntries)
+    func update(entry: Entry) {
+        guard let index = entryEntities.firstIndex(where: {$0.id == entry.id}) else { return }
+        let entity = entryEntities[index]
+        setEntryEntityValues(entity: entity, entry: entry)
+        
         manager.save()
         fetch()
     }
 
-    func delete(person: Person) {
-        guard let index = persons.firstIndex(where: {$0.id == person.id}) else { return }
-        manager.context.delete(personEntities[index])
+    func delete(entry: Entry) {
+        guard let index = entryEntities.firstIndex(where: {$0.id == entry.id}) else { return }
+        manager.context.delete(entryEntities[index])
         manager.save()
         fetch()
     }
 }
-
-//class PersonRepository : ObservableObject {
-//    @Published var persons : [Person] = []
-//    var dataService : PersonDataServiceProtocol
-//
-//    private var cancellables = Set<AnyCancellable>()
-//
-//    func create(person: Person) {
-//        dataService.create(person: person)
-//    }
-//    func update(person: Person) {
-//        dataService.update(person: person)
-//    }
-//    func delete(at offsets: IndexSet) {
-//        guard let index = offsets.first else { return }
-//        dataService.delete(person: persons[index])
-//    }
-//
-//    init(dataService: PersonDataServiceProtocol){
-//        self.dataService = dataService
-//        dataService.getData()
-//            .sink { error in
-//                fatalError("Could not get data from DataService: \(error)")
-//            } receiveValue: { [weak self] persons in
-//                self?.persons = persons
-//            }
-//            .store(in: &cancellables)
-//    }
-//}

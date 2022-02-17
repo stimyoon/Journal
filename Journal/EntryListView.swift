@@ -36,6 +36,7 @@ class EntryListVM : ObservableObject {
             .store(in: &cancellables)
     }
 }
+
 struct EntryListView: View {
     @StateObject var vm = EntryListVM(dataService: MockEntryDataService())
     @State var entry = Entry()
