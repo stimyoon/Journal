@@ -70,31 +70,6 @@ class EntryCoreDataService : EntryDataServiceProtocol {
             fatalError("Unable to fetch from coredata: \(error)")
         }
     }
-    func setEntryEntityValues(entity: EntryEntity, entry: Entry) {
-        entity.id = entry.id
-        entity.title = entry.title
-        entity.note = entry.note
-        entity.timestamp = entry.timestamp
-        entity.dateCreated = entry.dateCreated
-    }
-    enum SetEntryValuesError : Error {
-        case timestampIsNil
-        case dateCreatedIsNil
-    }
-    func setEntryValues( entry: inout Entry, entity: EntryEntity) throws {
-        entry.id = entity.id
-        entry.title = entity.title ?? ""
-        entry.note = entity.note ?? ""
-        guard let timestamp = entity.timestamp else {
-            throw SetEntryValuesError.timestampIsNil
-        }
-        entry.timestamp = timestamp
-        
-        guard let dateCreated = entity.dateCreated else {
-            throw SetEntryValuesError.dateCreatedIsNil
-        }
-        entry.dateCreated = dateCreated
-    }
     
     init(){
         fetch()
@@ -117,7 +92,35 @@ class EntryCoreDataService : EntryDataServiceProtocol {
             }
             .store(in: &cancellables)
     }
-
+    
+    private func setEntryEntityValues(entity: EntryEntity, entry: Entry) {
+        entity.id = entry.id
+        entity.title = entry.title
+        entity.note = entry.note
+        entity.timestamp = entry.timestamp
+        entity.dateCreated = entry.dateCreated
+    }
+    
+    enum SetEntryValuesError : Error {
+        case timestampIsNil
+        case dateCreatedIsNil
+    }
+    
+    private func setEntryValues( entry: inout Entry, entity: EntryEntity) throws {
+        entry.id = entity.id
+        entry.title = entity.title ?? ""
+        entry.note = entity.note ?? ""
+        guard let timestamp = entity.timestamp else {
+            throw SetEntryValuesError.timestampIsNil
+        }
+        entry.timestamp = timestamp
+        
+        guard let dateCreated = entity.dateCreated else {
+            throw SetEntryValuesError.dateCreatedIsNil
+        }
+        entry.dateCreated = dateCreated
+    }
+    
     func getData() -> AnyPublisher<[Entry], Error> {
         $entries.tryMap({$0}).eraseToAnyPublisher()
     }

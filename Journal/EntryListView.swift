@@ -38,7 +38,7 @@ class EntryListVM : ObservableObject {
 }
 
 struct EntryListView: View {
-    @StateObject var vm = EntryListVM(dataService: MockEntryDataService())
+    @StateObject var vm = EntryListVM(dataService: EntryCoreDataService())
     @State var entry = Entry()
     
     var body: some View {
@@ -51,6 +51,7 @@ struct EntryListView: View {
                         EntryCellView(entry: entry)
                     }
                 }
+                .onDelete(perform: vm.delete)
             }
             .navigationTitle("Journal Entries")
             .toolbar {
@@ -61,6 +62,9 @@ struct EntryListView: View {
                         Label("Save", systemImage: "plus")
                     }
                     
+                }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    EditButton()
                 }
             }
         }
