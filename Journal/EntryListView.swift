@@ -96,12 +96,24 @@ struct EntryEditView : View {
         }
     }
 }
+
 struct EntryCellView: View {
     let entry : Entry
     var body: some View {
         VStack(alignment: .leading){
-            Text(entry.title)
+            HStack{
+                Text(entry.title).font(.title3)
+                Spacer()
+                Text(dateString(date: entry.timestamp))
+                    .font(.caption)
+            }
             Text(entry.note)
         }
+    }
+    func dateString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .short
+        return dateFormatter.string(from: date)
     }
 }
