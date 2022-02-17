@@ -53,6 +53,7 @@ struct EntryListView: View {
                 }
                 .onDelete(perform: vm.delete)
             }
+            .listStyle(.plain)
             .navigationTitle("Journal Entries")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
