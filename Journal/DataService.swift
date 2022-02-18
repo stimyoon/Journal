@@ -78,14 +78,8 @@ class EntryCoreDataService : EntryDataServiceProtocol {
         fetch()
         $entryEntities
             .map({ entryEntities in
-                entryEntities.map { (entryEntity) -> Entry     in
-                    var entry = Entry()
-                    do {
-                        entry = try self.getEntryWithEntryEntity(entry: entry, entity: entryEntity)
-                    } catch let error {
-                        fatalError("\(error)")
-                    }
-                    return entry
+                entryEntities.map {
+                     self.getEntryWithEntryEntity(entity: $0)
                 }
             })
             .sink { error in
@@ -101,7 +95,7 @@ class EntryCoreDataService : EntryDataServiceProtocol {
         entity.title = entry.title
         entity.note = entry.note
         entity.timestamp = entry.timestamp
-//        entity.dateCreated = entry.dateCreated
+        entity.dateCreated = entry.dateCreated
 //        var photoEntities : [PhotoEntity] = entry.photos.map { <#Photo#> in
 //            <#code#>
 //        }
@@ -145,8 +139,8 @@ class EntryCoreDataService : EntryDataServiceProtocol {
     enum PhotoEntityError : Error {
         case unableToMakePhotoEntityArray
     }
-    private func getEntryWithEntryEntity( entry: Entry, entity: EntryEntity) throws -> Entry {
-        var entry = entry
+    private func getEntryWithEntryEntity( entity: EntryEntity) -> Entry {
+        var entry = Entry()
         entry.id = entity.id
         entry.title = entity.title ?? ""
         entry.note = entity.note ?? ""
@@ -164,16 +158,7 @@ class EntryCoreDataService : EntryDataServiceProtocol {
         } else {
             entry.photos = []
         }
-        
-        
-//        guard let timestamp = entity.timestamp else {
-//            throw SetEntryValuesError.timestampIsNil
-//        }
         entry.timestamp = entity.timestamp ?? Date()
-        
-//        guard let dateCreated = entity.dateCreated else {
-//            throw SetEntryValuesError.dateCreatedIsNil
-//        }
         entry.dateCreated = entity.dateCreated ?? Date()
         
         return entry
