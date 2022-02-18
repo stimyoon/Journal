@@ -61,8 +61,7 @@ class EntryCoreDataService : EntryDataServiceProtocol {
     @Published private var entryEntities : [EntryEntity] = []
     let manager = PersistenceController.shared
     private var cancellables = Set<AnyCancellable>()
-    
-    var photoDataService :
+
 
     func fetch() {
         let request = NSFetchRequest<EntryEntity>(entityName: "EntryEntity")
@@ -102,12 +101,12 @@ class EntryCoreDataService : EntryDataServiceProtocol {
         entity.title = entry.title
         entity.note = entry.note
         entity.timestamp = entry.timestamp
-        entity.dateCreated = entry.dateCreated
-        var photoEntities : [PhotoEntity] = entry.photos.map { <#Photo#> in
-            <#code#>
-        }
-        }
-        entity.photos = NSSet(array: entry.)
+//        entity.dateCreated = entry.dateCreated
+//        var photoEntities : [PhotoEntity] = entry.photos.map { <#Photo#> in
+//            <#code#>
+//        }
+//        }
+//        entity.photos = NSSet(array: entry.)
     }
     
     enum SetEntryValuesError : Error {
@@ -143,28 +142,41 @@ class EntryCoreDataService : EntryDataServiceProtocol {
         
         return photo
     }
+    enum PhotoEntityError : Error {
+        case unableToMakePhotoEntityArray
+    }
     private func getEntryWithEntryEntity( entry: Entry, entity: EntryEntity) throws -> Entry {
         var entry = entry
         entry.id = entity.id
         entry.title = entity.title ?? ""
         entry.note = entity.note ?? ""
-        guard let photoEntityArray : [PhotoEntity] = entity.photos?.allObjects as? [PhotoEntity] else {
-            throw SetPhotoValuesError.unableToMakePhotoEntityArray
+        
+        if let photoEntityArray : [PhotoEntity] = entity.photos?.allObjects as? [PhotoEntity] {
+            entry.photos = photoEntityArray.map({ photoEntity in
+                var photo = Photo()
+                photo.id = photoEntity.id ?? UUID().uuidString
+                photo.timestamp = photoEntity.timestamp ?? Date()
+                if let imageData = photoEntity.imageData {
+                    photo.uiImage = UIImage(data: imageData)
+                }
+                return photo
+            })
+        } else {
+            entry.photos = []
         }
         
-        entry.photos = photoEntityArray.map({ photoEntity in
-            var photo = Photo()
-            photo.id =
-        })
-        guard let timestamp = entity.timestamp else {
-            throw SetEntryValuesError.timestampIsNil
-        }
-        entry.timestamp = timestamp
         
-        guard let dateCreated = entity.dateCreated else {
-            throw SetEntryValuesError.dateCreatedIsNil
-        }
-        entry.dateCreated = dateCreated
+//        guard let timestamp = entity.timestamp else {
+//            throw SetEntryValuesError.timestampIsNil
+//        }
+        entry.timestamp = entity.timestamp ?? Date()
+        
+//        guard let dateCreated = entity.dateCreated else {
+//            throw SetEntryValuesError.dateCreatedIsNil
+//        }
+        entry.dateCreated = entity.dateCreated ?? Date()
+        
+        return entry
     }
     
     func getData() -> AnyPublisher<[Entry], Error> {
