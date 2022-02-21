@@ -10,14 +10,7 @@ import Combine
 import CoreData
 import UIKit
 
-struct Entry : Identifiable {
-    var id : String? = UUID().uuidString
-    var dateCreated : Date = Date()
-    var timestamp : Date = Date()
-    var title = ""
-    var note = ""
-    var photos : [Photo] = []
-}
+
 protocol EntryDataServiceProtocol {
     func getData() -> AnyPublisher<[Entry], Error>
     func create(entry: Entry)
@@ -25,36 +18,7 @@ protocol EntryDataServiceProtocol {
     func delete(entry: Entry)
 }
 
-class MockEntryDataService: EntryDataServiceProtocol {
-    @Published var entries : [Entry] = []
-    
-    func getData() -> AnyPublisher<[Entry], Error> {
-        $entries.tryMap({$0}).eraseToAnyPublisher()
-    }
-    func create(entry: Entry) {
-        entries.append(entry)
-    }
-    func update(entry: Entry) {
-        guard let index = entries.firstIndex(where: {$0.id == entry.id})
-        else {
-            return
-        }
-        entries[index] = entry
-    }
-    func delete(entry: Entry) {
-        guard let index = entries.firstIndex(where: {$0.id == entry.id})
-        else {
-            return
-        }
-        entries.remove(at: index)
-    }
-    init(){
-        self.entries = [
-            Entry(title: "first note", note: "This is mock data"),
-            Entry(title: "2nd note", note: "This is second mock note")
-        ]
-    }
-}
+
 
 class EntryCoreDataService : EntryDataServiceProtocol {
     @Published private (set) var entries : [Entry] = []
@@ -107,59 +71,43 @@ class EntryCoreDataService : EntryDataServiceProtocol {
         case timestampIsNil
         case dateCreatedIsNil
     }
-    enum SetPhotoValuesError : Error {
-        case entityIDIsNil
-        case timestampIsNil
-        case imageDataIsNil
-        case unableToMakeUIImageWithImageData
+
+    enum PhotoEntityError : Error {
+        case unableToMakePhotoEntityArray
     }
-    private func getPhotoWithPhotoEntity(photo: Photo, entity: PhotoEntity) throws -> Photo{
-        var photo = photo
-        guard let id = entity.id else {
-            throw SetPhotoValuesError.entityIDIsNil
+    
+    
+    private func convertPhotoEntity_to_Photo(photoEntity: PhotoEntity) -> Photo {
+        var photo = Photo()
+
+        photo.id = photoEntity.id ?? UUID().uuidString
+        photo.timestamp = photoEntity.timestamp ?? Date()
+        guard let imageData = photoEntity.imageData,
+              let uiImage = UIImage(data: imageData)
+        else {
+            return photo
         }
-        photo.id = id
-        
-        guard let timestamp = entity.timestamp else {
-            throw SetPhotoValuesError.timestampIsNil
-        }
-        photo.timestamp = timestamp
-        
-        guard let imageData = entity.imageData else {
-            throw SetPhotoValuesError.imageDataIsNil
-        }
-        
-        guard let uiImage = UIImage(data: imageData) else {
-            throw SetPhotoValuesError.unableToMakeUIImageWithImageData
-        }
+
         photo.uiImage = uiImage
         
         return photo
     }
-    enum PhotoEntityError : Error {
-        case unableToMakePhotoEntityArray
-    }
+
+    
+    
     private func getEntryWithEntryEntity( entity: EntryEntity) -> Entry {
         var entry = Entry()
         entry.id = entity.id
         entry.title = entity.title ?? ""
         entry.note = entity.note ?? ""
+        entry.timestamp = entity.timestamp ?? Date()
+        entry.dateCreated = entity.dateCreated ?? Date()
         
         if let photoEntityArray : [PhotoEntity] = entity.photos?.allObjects as? [PhotoEntity] {
-            entry.photos = photoEntityArray.map({ photoEntity in
-                var photo = Photo()
-                photo.id = photoEntity.id ?? UUID().uuidString
-                photo.timestamp = photoEntity.timestamp ?? Date()
-                if let imageData = photoEntity.imageData {
-                    photo.uiImage = UIImage(data: imageData)
-                }
-                return photo
-            })
+            entry.photos = photoEntityArray.map({ PhotoEntity.convertPhotoEntity_to_Photo(photoEntity: $0) })
         } else {
             entry.photos = []
         }
-        entry.timestamp = entity.timestamp ?? Date()
-        entry.dateCreated = entity.dateCreated ?? Date()
         
         return entry
     }

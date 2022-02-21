@@ -17,11 +17,14 @@
 		91351FF227BB49C700353512 /* JournalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91351FF127BB49C700353512 /* JournalTests.swift */; };
 		91351FFC27BB49C700353512 /* JournalUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91351FFB27BB49C700353512 /* JournalUITests.swift */; };
 		91351FFE27BB49C700353512 /* JournalUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91351FFD27BB49C700353512 /* JournalUITestsLaunchTests.swift */; };
-		917914B927BDD8670062D1A9 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917914B827BDD8670062D1A9 /* Photo.swift */; };
+		917914B927BDD8670062D1A9 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917914B827BDD8670062D1A9 /* Models.swift */; };
 		917914BB27BDD93C0062D1A9 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917914BA27BDD93C0062D1A9 /* ImagePicker.swift */; };
 		9196511A27BF44200073B7ED /* SunSetVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9196511927BF44200073B7ED /* SunSetVM.swift */; };
-		9196511C27BFD5E30073B7ED /* PhotoDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9196511B27BFD5E30073B7ED /* PhotoDataService.swift */; };
 		91A142EF27BCA70700D02010 /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A142EE27BCA70700D02010 /* ViewExtensions.swift */; };
+		91B3CFBE27C3365D007C6564 /* MockDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3CFBD27C3365D007C6564 /* MockDataService.swift */; };
+		91B3CFC227C33DF6007C6564 /* EntryCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3CFC127C33DF6007C6564 /* EntryCellView.swift */; };
+		91B3CFC427C33E1A007C6564 /* EntryEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3CFC327C33E1A007C6564 /* EntryEditView.swift */; };
+		91B3CFC627C33E4A007C6564 /* EntryListVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3CFC527C33E4A007C6564 /* EntryListVM.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,11 +58,14 @@
 		91351FF727BB49C700353512 /* JournalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JournalUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		91351FFB27BB49C700353512 /* JournalUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalUITests.swift; sourceTree = "<group>"; };
 		91351FFD27BB49C700353512 /* JournalUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		917914B827BDD8670062D1A9 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		917914B827BDD8670062D1A9 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		917914BA27BDD93C0062D1A9 /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		9196511927BF44200073B7ED /* SunSetVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunSetVM.swift; sourceTree = "<group>"; };
-		9196511B27BFD5E30073B7ED /* PhotoDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDataService.swift; sourceTree = "<group>"; };
 		91A142EE27BCA70700D02010 /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
+		91B3CFBD27C3365D007C6564 /* MockDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataService.swift; sourceTree = "<group>"; };
+		91B3CFC127C33DF6007C6564 /* EntryCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryCellView.swift; sourceTree = "<group>"; };
+		91B3CFC327C33E1A007C6564 /* EntryEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryEditView.swift; sourceTree = "<group>"; };
+		91B3CFC527C33E4A007C6564 /* EntryListVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryListVM.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,17 +116,15 @@
 		91351FDA27BB49C500353512 /* Journal */ = {
 			isa = PBXGroup;
 			children = (
+				91B3CFC027C33DCA007C6564 /* EntryViews */,
+				91B3CFBF27C3379C007C6564 /* Models */,
+				91B3CFBC27C33641007C6564 /* DataService */,
 				91351FDB27BB49C500353512 /* JournalApp.swift */,
-				9108FD6227BBB81300A8686E /* DataService.swift */,
-				9196511B27BFD5E30073B7ED /* PhotoDataService.swift */,
-				9108FD6627BBBBEC00A8686E /* EntryListView.swift */,
 				91A142EE27BCA70700D02010 /* ViewExtensions.swift */,
 				9108FD6427BBB85300A8686E /* Persistence.swift */,
 				917914BA27BDD93C0062D1A9 /* ImagePicker.swift */,
 				9196511927BF44200073B7ED /* SunSetVM.swift */,
 				91351FDF27BB49C600353512 /* Assets.xcassets */,
-				91351FE627BB49C600353512 /* CoreDataModel.xcdatamodeld */,
-				917914B827BDD8670062D1A9 /* Photo.swift */,
 				91351FE127BB49C600353512 /* Preview Content */,
 			);
 			path = Journal;
@@ -149,6 +153,35 @@
 				91351FFD27BB49C700353512 /* JournalUITestsLaunchTests.swift */,
 			);
 			path = JournalUITests;
+			sourceTree = "<group>";
+		};
+		91B3CFBC27C33641007C6564 /* DataService */ = {
+			isa = PBXGroup;
+			children = (
+				9108FD6227BBB81300A8686E /* DataService.swift */,
+				91B3CFBD27C3365D007C6564 /* MockDataService.swift */,
+			);
+			path = DataService;
+			sourceTree = "<group>";
+		};
+		91B3CFBF27C3379C007C6564 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				917914B827BDD8670062D1A9 /* Models.swift */,
+				91351FE627BB49C600353512 /* CoreDataModel.xcdatamodeld */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		91B3CFC027C33DCA007C6564 /* EntryViews */ = {
+			isa = PBXGroup;
+			children = (
+				9108FD6627BBBBEC00A8686E /* EntryListView.swift */,
+				91B3CFC527C33E4A007C6564 /* EntryListVM.swift */,
+				91B3CFC127C33DF6007C6564 /* EntryCellView.swift */,
+				91B3CFC327C33E1A007C6564 /* EntryEditView.swift */,
+			);
+			path = EntryViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -281,15 +314,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				917914B927BDD8670062D1A9 /* Photo.swift in Sources */,
+				917914B927BDD8670062D1A9 /* Models.swift in Sources */,
 				9108FD6327BBB81300A8686E /* DataService.swift in Sources */,
+				91B3CFC627C33E4A007C6564 /* EntryListVM.swift in Sources */,
 				9108FD6527BBB85300A8686E /* Persistence.swift in Sources */,
 				9196511A27BF44200073B7ED /* SunSetVM.swift in Sources */,
 				91351FDC27BB49C500353512 /* JournalApp.swift in Sources */,
+				91B3CFBE27C3365D007C6564 /* MockDataService.swift in Sources */,
+				91B3CFC227C33DF6007C6564 /* EntryCellView.swift in Sources */,
 				91351FE827BB49C600353512 /* CoreDataModel.xcdatamodeld in Sources */,
 				917914BB27BDD93C0062D1A9 /* ImagePicker.swift in Sources */,
+				91B3CFC427C33E1A007C6564 /* EntryEditView.swift in Sources */,
 				91A142EF27BCA70700D02010 /* ViewExtensions.swift in Sources */,
-				9196511C27BFD5E30073B7ED /* PhotoDataService.swift in Sources */,
 				9108FD6727BBBBEC00A8686E /* EntryListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
