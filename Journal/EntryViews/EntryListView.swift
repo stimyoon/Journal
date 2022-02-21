@@ -19,7 +19,7 @@ struct EntryListView: View {
             List{
                 ForEach(vm.entries) { entry in
                     NavigationLink {
-                        EntryEditView(entry: entry, completion: vm.update)
+                        EntryEditView(vm: vm, entry: entry, completion: vm.update)
                     } label: {
                         EntryCellView(entry: entry)
                     }
@@ -31,7 +31,7 @@ struct EntryListView: View {
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     NavigationLink {
-                        EntryEditView(entry: Entry(), completion: vm.create)
+                        EntryEditView(vm: vm, entry: Entry(), completion: vm.create)
                     } label: {
                         Label("Save", systemImage: "plus")
                     }

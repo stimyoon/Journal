@@ -9,7 +9,10 @@ import SwiftUI
 
 struct EntryEditView : View {
     @Environment(\.dismiss) var dismiss
+    @ObservedObject var vm : EntryListVM
+    
     @State var entry : Entry
+    @State var photoTitle = ""
     var completion: (Entry)->()
     
     var body: some View {
@@ -30,14 +33,18 @@ struct EntryEditView : View {
                 }
                 Section(header: Text("Photos")) {
                     VStack{
+                        TextField("photo title", text: $photoTitle)
                         Button {
-                            
+                            let photo = Photo(title: photoTitle)
+                            entry.photos.append(photo)
+                            vm.update(entry: entry)
                         } label: {
                             Text("add photo")
                         }
 
                         ForEach(entry.photos) { photo in
                             VStack {
+                                Text(photo.title)
                                 photo.image ?? Image(systemName: "photo")
                             }
                         }

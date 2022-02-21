@@ -18,8 +18,6 @@ protocol EntryDataServiceProtocol {
     func delete(entry: Entry)
 }
 
-
-
 class EntryCoreDataService : EntryDataServiceProtocol {
     @Published private (set) var entries : [Entry] = []
     @Published private var entryEntities : [EntryEntity] = []
@@ -60,22 +58,24 @@ class EntryCoreDataService : EntryDataServiceProtocol {
         entity.note = entry.note
         entity.timestamp = entry.timestamp
         entity.dateCreated = entry.dateCreated
-//        var photoEntities : [PhotoEntity] = entry.photos.map { <#Photo#> in
-//            <#code#>
-//        }
-//        }
-//        entity.photos = NSSet(array: entry.)
+        
+        // create new photoEntities
+        let newPhotoEntities : [PhotoEntity] = entry.photos.map { photo in
+            let entity = PhotoEntity(context: manager.context)
+            entity.setEntityValue(photo: photo)
+            return entity
+        }
+    
+        // delete old photoEntities
+        if let oldPhotoEntities = entity.photos?.allObjects as? [PhotoEntity] {
+            oldPhotoEntities.forEach({ manager.context.delete($0)})
+        }
+        
+        // assign new photoEntites to entry.photos
+        entity.photos = NSSet(array: newPhotoEntities)
     }
     
-    enum SetEntryValuesError : Error {
-        case timestampIsNil
-        case dateCreatedIsNil
-    }
 
-    enum PhotoEntityError : Error {
-        case unableToMakePhotoEntityArray
-    }
-    
     
     private func convertPhotoEntity_to_Photo(photoEntity: PhotoEntity) -> Photo {
         var photo = Photo()

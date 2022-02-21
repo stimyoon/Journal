@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Photo : Identifiable {
     var id: String = UUID().uuidString
+    var title: String = ""
     var timestamp : Date = Date()
     var uiImage : UIImage?
     var image : Image? {
@@ -30,10 +31,23 @@ extension PhotoEntity {
     static func convertPhotoEntity_to_Photo(photoEntity: PhotoEntity) -> Photo {
         var photo = Photo()
         photo.id = photoEntity.id ?? UUID().uuidString
+        photo.title = photoEntity.title ?? ""
         photo.timestamp = photoEntity.timestamp ?? Date()
         if let imageData = photoEntity.imageData {
             photo.uiImage = UIImage(data: imageData)
         }
         return photo
+    }
+    func setEntityValue(photo: Photo) {
+        self.id = photo.id
+        self.timestamp = photo.timestamp
+        self.title = photo.title
+        self.imageData = photo.uiImage?.jpegData(compressionQuality: 1.0)
+    }
+}
+
+extension EntryEntity {
+    func setPhotoValues(photos: [Photo]) {
+        
     }
 }
