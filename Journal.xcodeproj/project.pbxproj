@@ -19,6 +19,7 @@
 		91351FFE27BB49C700353512 /* JournalUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91351FFD27BB49C700353512 /* JournalUITestsLaunchTests.swift */; };
 		916E518827C47FD900EE8F4C /* PhotoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916E518727C47FD900EE8F4C /* PhotoListView.swift */; };
 		916E518A27C48E9800EE8F4C /* PhotoEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916E518927C48E9800EE8F4C /* PhotoEditView.swift */; };
+		916E518C27C522A000EE8F4C /* GlobalFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916E518B27C522A000EE8F4C /* GlobalFunctions.swift */; };
 		917914B927BDD8670062D1A9 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917914B827BDD8670062D1A9 /* Models.swift */; };
 		917914BB27BDD93C0062D1A9 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917914BA27BDD93C0062D1A9 /* ImagePicker.swift */; };
 		9196511A27BF44200073B7ED /* SunSetVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9196511927BF44200073B7ED /* SunSetVM.swift */; };
@@ -62,6 +63,7 @@
 		91351FFD27BB49C700353512 /* JournalUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		916E518727C47FD900EE8F4C /* PhotoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListView.swift; sourceTree = "<group>"; };
 		916E518927C48E9800EE8F4C /* PhotoEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditView.swift; sourceTree = "<group>"; };
+		916E518B27C522A000EE8F4C /* GlobalFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFunctions.swift; sourceTree = "<group>"; };
 		917914B827BDD8670062D1A9 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		917914BA27BDD93C0062D1A9 /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		9196511927BF44200073B7ED /* SunSetVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunSetVM.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 		91351FDA27BB49C500353512 /* Journal */ = {
 			isa = PBXGroup;
 			children = (
+				916E518B27C522A000EE8F4C /* GlobalFunctions.swift */,
 				916E518627C47F9400EE8F4C /* PhotoViews */,
 				91B3CFC027C33DCA007C6564 /* EntryViews */,
 				91B3CFBF27C3379C007C6564 /* Models */,
@@ -338,6 +341,7 @@
 				91351FDC27BB49C500353512 /* JournalApp.swift in Sources */,
 				91B3CFBE27C3365D007C6564 /* MockEntryDataService.swift in Sources */,
 				91B3CFC227C33DF6007C6564 /* EntryCellView.swift in Sources */,
+				916E518C27C522A000EE8F4C /* GlobalFunctions.swift in Sources */,
 				91351FE827BB49C600353512 /* CoreDataModel.xcdatamodeld in Sources */,
 				917914BB27BDD93C0062D1A9 /* ImagePicker.swift in Sources */,
 				91B3CFC427C33E1A007C6564 /* EntryEditView.swift in Sources */,

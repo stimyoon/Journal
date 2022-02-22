@@ -37,12 +37,28 @@ struct PhotoListView: View {
                     .padding(.bottom)
                 }
             }
+           
+        }
+        .navigationBarTitle("Photo List")
+        .toolbar {
+            ToolbarItem {
+                NavigationLink {
+                    PhotoEditView(photo: Photo()) { photo in
+                        print("\(photo.title)")
+                    }
+                } label: {
+                    Text("Add Photo")
+                }
+
+            }
         }
     }
 }
 
 struct PhotoListView_Previews: PreviewProvider {
     static var previews: some View {
-        PhotoListView(photos: Photo.mockData)
+        NavigationView{
+            PhotoListView(photos: Photo.mockData)
+        }
     }
 }

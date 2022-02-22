@@ -12,20 +12,38 @@ class PhotoEditViewModel: ObservableObject {
     @Published var uiImage : UIImage?
 }
 struct PhotoEditView: View {
-    @State var photo = Photo()
+    @Environment(\.dismiss) var dismiss
+    var completion: (Photo)->()
+    @State var photo : Photo
     @State var isShowingSheet = false
     
     var body: some View {
         VStack{
             TextField("title", text: $photo.title)
+                .textFieldStyle(.roundedBorder)
+                .padding()
             if let uiImage = photo.uiImage {
                 Image(uiImage: uiImage)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 100, height: 100)
+                    .frame(width: 200, height: 200)
             } else {
                 Image(systemName: "photo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 200, height: 200)
+                    .onTapGesture {
+                        isShowingSheet = true
+                    }
             }
+            Button {
+                completion(photo)
+                dismiss()
+            } label: {
+                Text("Save")
+            }
+            .buttonStyle(.bordered)
+            .padding()
         }
         .sheet(isPresented: $isShowingSheet, onDismiss: nil) {
             ImagePicker(uiImage: $photo.uiImage)
@@ -42,12 +60,18 @@ struct PhotoEditView: View {
             }
         }
     }
+    init(photo: Photo, completion: @escaping (Photo)->Void) {
+        _photo = State(initialValue: photo)
+        self.completion = completion
+    }
 }
 
 struct PhotoEditView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView{
-            PhotoEditView()
+            PhotoEditView(photo: Photo()) { photo in
+                print("photot title: \(photo.title)")
+            }
         }
     }
 }
