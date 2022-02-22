@@ -42,12 +42,7 @@ struct EntryEditView : View {
                             Text("add photo")
                         }
 
-                        ForEach(entry.photos) { photo in
-                            VStack {
-                                Text(photo.title)
-                                photo.image ?? Image(systemName: "photo")
-                            }
-                        }
+                        PhotoListView(photos: entry.photos)
                     }
                 }
             }

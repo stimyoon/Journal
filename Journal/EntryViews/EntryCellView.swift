@@ -27,7 +27,7 @@ struct EntryCellView: View {
                 Text(entry.note)
                     .lineLimit(3)
             }
-            List{
+            VStack{
                 ForEach(entry.photos) {
                     Text($0.title)
                 }

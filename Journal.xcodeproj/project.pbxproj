@@ -17,6 +17,8 @@
 		91351FF227BB49C700353512 /* JournalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91351FF127BB49C700353512 /* JournalTests.swift */; };
 		91351FFC27BB49C700353512 /* JournalUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91351FFB27BB49C700353512 /* JournalUITests.swift */; };
 		91351FFE27BB49C700353512 /* JournalUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91351FFD27BB49C700353512 /* JournalUITestsLaunchTests.swift */; };
+		916E518827C47FD900EE8F4C /* PhotoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916E518727C47FD900EE8F4C /* PhotoListView.swift */; };
+		916E518A27C48E9800EE8F4C /* PhotoEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916E518927C48E9800EE8F4C /* PhotoEditView.swift */; };
 		917914B927BDD8670062D1A9 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917914B827BDD8670062D1A9 /* Models.swift */; };
 		917914BB27BDD93C0062D1A9 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917914BA27BDD93C0062D1A9 /* ImagePicker.swift */; };
 		9196511A27BF44200073B7ED /* SunSetVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9196511927BF44200073B7ED /* SunSetVM.swift */; };
@@ -58,6 +60,8 @@
 		91351FF727BB49C700353512 /* JournalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JournalUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		91351FFB27BB49C700353512 /* JournalUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalUITests.swift; sourceTree = "<group>"; };
 		91351FFD27BB49C700353512 /* JournalUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		916E518727C47FD900EE8F4C /* PhotoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListView.swift; sourceTree = "<group>"; };
+		916E518927C48E9800EE8F4C /* PhotoEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditView.swift; sourceTree = "<group>"; };
 		917914B827BDD8670062D1A9 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		917914BA27BDD93C0062D1A9 /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		9196511927BF44200073B7ED /* SunSetVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunSetVM.swift; sourceTree = "<group>"; };
@@ -116,6 +120,7 @@
 		91351FDA27BB49C500353512 /* Journal */ = {
 			isa = PBXGroup;
 			children = (
+				916E518627C47F9400EE8F4C /* PhotoViews */,
 				91B3CFC027C33DCA007C6564 /* EntryViews */,
 				91B3CFBF27C3379C007C6564 /* Models */,
 				91B3CFBC27C33641007C6564 /* DataService */,
@@ -153,6 +158,15 @@
 				91351FFD27BB49C700353512 /* JournalUITestsLaunchTests.swift */,
 			);
 			path = JournalUITests;
+			sourceTree = "<group>";
+		};
+		916E518627C47F9400EE8F4C /* PhotoViews */ = {
+			isa = PBXGroup;
+			children = (
+				916E518727C47FD900EE8F4C /* PhotoListView.swift */,
+				916E518927C48E9800EE8F4C /* PhotoEditView.swift */,
+			);
+			path = PhotoViews;
 			sourceTree = "<group>";
 		};
 		91B3CFBC27C33641007C6564 /* DataService */ = {
@@ -317,8 +331,10 @@
 				917914B927BDD8670062D1A9 /* Models.swift in Sources */,
 				9108FD6327BBB81300A8686E /* EntryDataService.swift in Sources */,
 				91B3CFC627C33E4A007C6564 /* EntryListVM.swift in Sources */,
+				916E518827C47FD900EE8F4C /* PhotoListView.swift in Sources */,
 				9108FD6527BBB85300A8686E /* Persistence.swift in Sources */,
 				9196511A27BF44200073B7ED /* SunSetVM.swift in Sources */,
+				916E518A27C48E9800EE8F4C /* PhotoEditView.swift in Sources */,
 				91351FDC27BB49C500353512 /* JournalApp.swift in Sources */,
 				91B3CFBE27C3365D007C6564 /* MockEntryDataService.swift in Sources */,
 				91B3CFC227C33DF6007C6564 /* EntryCellView.swift in Sources */,

@@ -16,6 +16,11 @@ struct Photo : Identifiable {
         guard let uiImage = self.uiImage else { return nil }
         return Image(uiImage: uiImage)
     }
+    static let mockData : [Photo] = [
+        Photo(title: "Lady with flower", uiImage: UIImage(named: "Image1")),
+        Photo(title: "balloons", uiImage: UIImage(named: "Image2")),
+        Photo(title: "blank", uiImage: nil)
+    ]
 }
 
 struct Entry : Identifiable {
