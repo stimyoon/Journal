@@ -12,6 +12,7 @@ import Combine
 
 struct EntryListView: View {
     @StateObject var vm = EntryListVM(dataService: EntryCoreDataService())
+    
     @State var entry = Entry()
     
     var body: some View {

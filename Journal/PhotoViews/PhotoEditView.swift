@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import AVFAudio
+
 class PhotoEditViewModel: ObservableObject {
     @Published var title = ""
     @Published var uiImage : UIImage?

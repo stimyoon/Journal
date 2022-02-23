@@ -28,22 +28,11 @@ struct EntryEditView : View {
                 Section(header: Text("Note")){
                     TextEditor(text: $entry.note)
                         .lineLimit(nil)
-                        .frame(height: 300)
+                        .frame(maxHeight: 300)
                         .border(.tertiary)
                 }
                 Section(header: Text("Photos")) {
-                    VStack{
-                        TextField("photo title", text: $photoTitle)
-                        Button {
-                            let photo = Photo(title: photoTitle)
-                            entry.photos.append(photo)
-                            vm.update(entry: entry)
-                        } label: {
-                            Text("add photo")
-                        }
-
-                        PhotoListView(photos: entry.photos)
-                    }
+                    PhotoListView(photos: $entry.photos)
                 }
             }
             Button {

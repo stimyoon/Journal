@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PhotoListView: View {
-    let photos : [Photo]
+    @Binding var photos : [Photo]
     var body: some View {
         ScrollView {
             VStack{
@@ -36,15 +36,23 @@ struct PhotoListView: View {
                     })
                     .padding(.bottom)
                 }
+                .onDelete { offsets in
+                    guard let index = offsets.first else { return }
+                    photos.remove(at: index)
+                }
             }
            
         }
         .navigationBarTitle("Photo List")
         .toolbar {
+            ToolbarItem(placement: .navigationBarLeading){
+                EditButton()
+            }
             ToolbarItem {
                 NavigationLink {
                     PhotoEditView(photo: Photo()) { photo in
                         print("\(photo.title)")
+                        photos.append(photo)
                     }
                 } label: {
                     Text("Add Photo")
@@ -58,7 +66,7 @@ struct PhotoListView: View {
 struct PhotoListView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView{
-            PhotoListView(photos: Photo.mockData)
+            PhotoListView(photos: .constant(Photo.mockData))
         }
     }
 }
