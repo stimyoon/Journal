@@ -30,6 +30,12 @@ struct Entry : Identifiable {
     var title = ""
     var note = ""
     var photos : [Photo] = []
+    
+    static let mockEntryData : Entry = Entry(title: "mock data 1", note: "This is mock data. Nice.", photos: [Photo(title: "lady", uiImage: UIImage(named: "Image1"))])
+    static let mockData : [Entry] = [
+        Entry(title: "mock data 1", note: "This is mock data. Nice.", photos: [Photo(title: "lady", uiImage: UIImage(named: "Image1"))]),
+        Entry(title: "mock data 2", note: "This is the second mock data note", photos: [Photo(title: "ballons", uiImage:  UIImage(named: "Image2"))])
+    ]
 }
 
 extension PhotoEntity {

@@ -10,44 +10,37 @@ import SwiftUI
 struct PhotoListView: View {
     @Binding var photos : [Photo]
     var body: some View {
-        ScrollView {
+        ForEach( photos ) { photo in
             VStack{
-                ForEach( photos ) { photo in
-                    VStack{
-                        Text(photo.title)
-                        if let image = photo.image {
-                            image
-                                .resizable()
-                                .scaledToFit()
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .frame(maxWidth: 300, maxHeight: 300)
-                        } else {
-                            Image(systemName: "photo")
-                                .resizable()
-                                .scaledToFit()
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
-                                .frame(maxWidth: 300, maxHeight: 300)
-                        }
-                    }
-                    .background(content: {
-                        RoundedRectangle(cornerRadius: 4)
-                            .stroke()
-                            .foregroundColor(Color.secondary)
-                    })
-                    .padding(.bottom)
-                }
-                .onDelete { offsets in
-                    guard let index = offsets.first else { return }
-                    photos.remove(at: index)
+                Text(photo.title)
+                if let image = photo.image {
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .frame(maxWidth: .infinity, maxHeight: 300)
+                } else {
+                    Image(systemName: "photo")
+                        .resizable()
+                        .scaledToFit()
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .frame(maxWidth: .infinity, maxHeight: 300)
                 }
             }
-           
+            .background(content: {
+                RoundedRectangle(cornerRadius: 4)
+                    .stroke()
+                    .foregroundColor(Color.secondary)
+            })
+            .padding(.bottom)
         }
-        .navigationBarTitle("Photo List")
+        .onDelete { offsets in
+            guard let index = offsets.first else { return }
+            photos.remove(at: index)
+        }
+        
+        
         .toolbar {
-            ToolbarItem(placement: .navigationBarLeading){
-                EditButton()
-            }
             ToolbarItem {
                 NavigationLink {
                     PhotoEditView(photo: Photo()) { photo in
@@ -66,7 +59,9 @@ struct PhotoListView: View {
 struct PhotoListView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView{
-            PhotoListView(photos: .constant(Photo.mockData))
+            List{
+                PhotoListView(photos: .constant(Photo.mockData))
+            }
         }
     }
 }

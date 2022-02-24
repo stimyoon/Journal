@@ -9,10 +9,10 @@ import SwiftUI
 
 @main
 struct JournalApp: App {
-    
+    @StateObject var vm = EntryListVM(dataService: EntryCoreDataService())
     var body: some Scene {
         WindowGroup {
-            EntryListView()
+            EntryListView(vm: vm)
         }
     }
 }

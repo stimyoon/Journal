@@ -17,7 +17,7 @@ struct EntryEditView : View {
     
     var body: some View {
         VStack{
-            ScrollView{
+            List{
                 HStack{
                     Spacer()
                     DatePicker("Date", selection: $entry.timestamp)
@@ -28,9 +28,10 @@ struct EntryEditView : View {
                 Section(header: Text("Note")){
                     TextEditor(text: $entry.note)
                         .lineLimit(nil)
-                        .frame(maxHeight: 300)
+//                        .frame(maxHeight: 300)
                         .border(.tertiary)
                 }
+
                 Section(header: Text("Photos")) {
                     PhotoListView(photos: $entry.photos)
                 }
@@ -43,13 +44,17 @@ struct EntryEditView : View {
             }
             .buttonStyle(.bordered)
             .padding()
+            .navigationBarTitle("Entry Edit View")
         }
-        .padding(.horizontal)
     }
 }
-//
-//struct EntryEditView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        EntryEditView()
-//    }
-//}
+
+struct EntryEditView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationView {
+            EntryEditView(vm: EntryListVM(dataService: MockEntryDataService()), entry: Entry.mockEntryData) { _ in
+                print("completion is executed")
+            }
+        }
+    }
+}

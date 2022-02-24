@@ -11,7 +11,7 @@ import Combine
 
 
 struct EntryListView: View {
-    @StateObject var vm = EntryListVM(dataService: EntryCoreDataService())
+    @ObservedObject var vm : EntryListVM
     
     @State var entry = Entry()
     
@@ -38,9 +38,6 @@ struct EntryListView: View {
                     }
                     
                 }
-                ToolbarItem(placement: .navigationBarLeading) {
-                    EditButton()
-                }
             }
         }
     }
@@ -48,6 +45,6 @@ struct EntryListView: View {
 
 struct EntryListView_Previews: PreviewProvider {
     static var previews: some View {
-        EntryListView()
+        EntryListView(vm: EntryListVM(dataService: MockEntryDataService()))
     }
 }
