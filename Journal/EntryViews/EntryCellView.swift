@@ -28,8 +28,11 @@ struct EntryCellView: View {
                     .lineLimit(3)
             }
             VStack{
-                ForEach(entry.photos) {
-                    Text($0.title)
+                ForEach(entry.photos) { photo in
+                    HStack{
+                        Text(photo.title)
+                        Image(uiImage: (photo.uiImage ?? UIImage(systemName: "photo"))!)
+                    }
                 }
             }
         }
@@ -44,8 +47,10 @@ struct EntryCellView: View {
 }
 
 
-//struct EntryCellView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        EntryCellView()
-//    }
-//}
+struct EntryCellView_Previews: PreviewProvider {
+    static var previews: some View {
+        List{
+            EntryCellView(entry: Entry.mockEntryData)
+        }
+    }
+}

@@ -26,12 +26,17 @@ struct PhotoEditView: View {
                 Image(uiImage: uiImage)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 200, height: 200)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .padding()
+                    .onTapGesture {
+                        isShowingSheet = true
+                    }
             } else {
                 Image(systemName: "photo")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 200, height: 200)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .padding()
                     .onTapGesture {
                         isShowingSheet = true
                     }
